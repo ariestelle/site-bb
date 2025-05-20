@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pour mon bb d'amour</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Dancing Script', cursive;
+      background: #fefaf6;
+      color: #444;
+      overflow-x: hidden;
+    }
+    .container {
+      text-align: center;
+      padding: 3rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #88a08c;
+    }
+    button {
+      background: #a5d6a7;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 2rem;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #81c784;
+    }
+    #question-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+    input[type="text"] {
+      margin-top: 1rem;
+      padding: 0.7rem;
+      width: 70%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    #response {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      color: #6d6d6d;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff0f5;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      font-size: 1.5rem;
+      animation: fade 0.5s ease-in-out;
+      z-index: 999;
+    }
+    @keyframes fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .heart {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      animation: float 3s infinite ease-in-out;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .plants {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 150px;
+      background: url('https://i.imgur.com/HJ3lMYD.png') repeat-x;
+      background-size: contain;
+      z-index: -1;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="plants"></div>
+
+  <div class="container" id="home">
+    <h1>Site pour mon bb d'amour 💚</h1>
+    <button onclick="startQuestions()">Commencer</button>
+  </div>
+
+  <div class="container" id="question-box">
+    <h2 id="question"></h2>
+    <input type="text" id="answer" placeholder="Écris ta réponse ici mon bébé" />
+    <button onclick="nextQuestion()">Suivante</button>
+    <div id="response"></div>
+  </div>
+
+  <div class="popup" id="popup"></div>
+  <div class="heart" onclick="showPopup()">❤️</div>
+
+  <script>
+    const questions = [
+      "Ça a été aujourd'hui ?",
+      "T'as bien bu j'espère ?",
+      "Tu me manques mon chaton",
+      "J'ai hâte de te revoir"
+    ];
+
+    const popups = [
+      "Tu me manques !!!",
+      "Je t'aime"
+    ];
+
+    let current = 0;
+
+    function startQuestions() {
+      document.getElementById('home').style.display = 'none';
+      document.getElementById('question-box').style.display = 'flex';
+      showQuestion();
+    }
+
+    function showQuestion() {
+      document.getElementById('answer').value = '';
+      document.getElementById('response').textContent = '';
+      document.getElementById('question').textContent = questions[current];
+    }
+
+    function nextQuestion() {
+      const response = document.getElementById('answer').value;
+      if(response.trim() !== '') {
+        document.getElementById('response').textContent = `Tu as répondu : "${response}" 💌`;
+      }
+      current++;
+      if(current < questions.length) {
+        setTimeout(showQuestion, 1500);
+      } else {
+        setTimeout(() => {
+          document.getElementById('question-box').innerHTML = '<h2>Merci mon bébé 💖</h2><p>Tu veux rejouer ? Recharge la page !</p>';
+        }, 2000);
+      }
+    }
+
+    function showPopup() {
+      const popup = document.getElementById('popup');
+      popup.textContent = popups[Math.floor(Math.random() * popups.length)];
+      popup.style.display = 'block';
+      setTimeout(() => popup.style.display = 'none', 3000);
+    }
+  </script>
+</body>
+</html>
